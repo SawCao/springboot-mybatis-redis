@@ -20,7 +20,7 @@ public class testServiceImpl implements testService {
     private testDao _testDao;
 
     @Override
-    @Cacheable(key = "#p0")
+    @Cacheable(key = "#p0") //#p0 指的是输入的第一个参数
     public testModel getNameById(String id){
         System.err.println("根据id=" + id +"获取用户对象，从数据库中获取");
         return _testDao.getNameById(id);
@@ -34,7 +34,7 @@ public class testServiceImpl implements testService {
     }
 
     @Override
-    @CachePut(key="#p0.id")
+    @CachePut(key="#p0.id") //#p0.id 指的是输入的第一个参数的id属性
     public testModel insert(testModel test){
         System.err.println("即将插入：" + test);
         _testDao.insert(test);
