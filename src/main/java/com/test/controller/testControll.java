@@ -5,6 +5,9 @@ import com.test.kafka.KafkaReceiver;
 import com.test.kafka.KafkaSender;
 import com.test.model.testModel;
 import com.test.service.testService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +31,8 @@ public class testControll {
 
         return "Hello SpringBoot";
     }
-
+    @ApiOperation(value = "根据ID获取用户信息", notes = "")
+    @ApiImplicitParam(name = "id", value = "用于查询的ID", required = true, dataType = "String")
     @RequestMapping("/get")
     @ResponseBody
     public String get(String id){
@@ -37,6 +41,11 @@ public class testControll {
         return JSONObject.toJSONString(_testService.getNameById(id));
     }
 
+    @ApiOperation(value = "输入相关信息创建对应的用户", notes = "该过程包含了kafka的运用")
+    @ApiImplicitParams({
+            @ApiImplicitParam( name="id", value = "用于添加的ID", required = true, dataType = "String"),
+            @ApiImplicitParam( name="name1", value = "用于添加的NAME", required = true, dataType = "String")
+    })
     @RequestMapping("/add")
     @ResponseBody
     public String add(String id,String name1){
@@ -57,6 +66,8 @@ public class testControll {
         return t.getId()+"   " + t.getName1();
     }
 
+    @ApiOperation(value = "删除用户", notes = "")
+    @ApiImplicitParam(name = "id", value = "用于删除的ID", required = true, dataType = "String")
     @RequestMapping("/delete/{id}")
     @ResponseBody
     public String delete(@PathVariable("id")String id){
