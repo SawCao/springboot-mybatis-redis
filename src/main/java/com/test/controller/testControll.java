@@ -1,6 +1,8 @@
 package com.test.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.test.kafka.KafkaReceiver;
+import com.test.kafka.KafkaSender;
 import com.test.model.testModel;
 import com.test.service.testService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,15 @@ public class testControll {
     @Autowired
     private testService _testService;
 
+    @Autowired
+    private KafkaSender sender;
+
+    @Autowired
+    private KafkaReceiver receiver;
+
     @RequestMapping("/hello")
     public String index(){
+
         return "Hello SpringBoot";
     }
 
@@ -35,8 +44,17 @@ public class testControll {
         System.err.println("将要插入的id为：" + id  + " name为：" + name1);
         t.setId(id);
         t.setName1(name1);
+
+        System.err.println("将要发送kafka01");
+        sender.send(id, name1);
+        System.err.println("完成发送kafka01");
+
+        System.err.println("将要发送kafka02");
+        sender.send(id + "ss", name1 + "ss");
+        System.err.println("完成发送kafka02");
+
         _testService.insert(t);
-        return t.getId()+"    " + t.getName1();
+        return t.getId()+"   " + t.getName1();
     }
 
     @RequestMapping("/delete/{id}")

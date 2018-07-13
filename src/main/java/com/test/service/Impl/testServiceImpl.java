@@ -2,6 +2,7 @@ package com.test.service.Impl;
 
 
 import com.test.dao.testDao;
+import com.test.kafka.KafkaReceiver;
 import com.test.model.testModel;
 import com.test.service.testService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class testServiceImpl implements testService {
 
     @Autowired
     private testDao _testDao;
+
+    @Autowired
+    private KafkaReceiver receiver;
 
     @Override
     @Cacheable(key = "#p0") //#p0 指的是输入的第一个参数
